@@ -1,0 +1,212 @@
+# M1 Mac使用PD虚拟机配合VSC代替Keil烧录MM32单片机
+
+## 0.前言
+
+- 因为智能车竞赛而接触到了MM32F32G9P这款单片机。而由于我很喜欢macOS系统，加上我同时喜欢剪视频，因此买了一个arm芯片的MacBook Pro，但这就限制了我没办法用双系统运行Windows系统，只能转而使用虚拟机。使用Mac烧录stm32的教程很多，但是很少有mm32的教程。理论上这块芯片不用虚拟机也能烧录，但奈何本人实力有限，只能做到用vs code代替mdk（~~主要keil又丑又难用~~）
+- 第一次写这种教程，可能会漏很多东西，请见谅
+
+## 1.准备工作
+
+- 准备好pd虚拟机并安装Windows系统，Windows10、11都可以
+- 虚拟机上安装mdk，vsc，python（最好选x86的，不要选arm芯片），以及arm芯片的下载器驱动（比如jlink的arm驱动，可能需要的arm CH341驱动）
+
+## 2.安装
+
+先在这里贴一个vsc插件EIDE的[网址](https://docs.em-ide.com/#/)，这个作者原来的插件Keil Assistant已经不再更新了
+
+安装在这里就不再赘述，就是下载插件即可，详情请看上面的网址
+
+如果你是Windows笔记本想要使用，基本上按照上面这个网址的教程来配置就不会有任何问题
+
+## 3.开始
+
+1. 安装完成后点击这里进入插件界面
+
+<img src="/Users/baohan/Library/CloudStorage/OneDrive-个人/Markdown/20220405 M1 Mac使用pd虚拟机配合VSC烧录mm32单片机/EIDE.jpeg" alt="EIDE" style="zoom:50%;" />
+
+2. 点击 **导入项目** 导入KEIL 项目文件，MDK 项目为 `*.uvprojx`, KEIL C51 项目为 `*.uvproj`
+
+随后右下角会弹出 **eide项目是否和keil文件放在同一文件夹内** 和 **切换工作区** 的弹窗，自行选择即可
+
+3. 点击 **设置工具链路径** 可以配置mdk路径，打勾的是配置好的，叉是没配置好的
+
+   <img src="/Users/baohan/Library/CloudStorage/OneDrive-个人/Markdown/20220405 M1 Mac使用pd虚拟机配合VSC烧录mm32单片机/toolchain.png" alt="toolchain" style="zoom:50%;" />
+
+（好像本文需要的都自动配置好了？我忘了我有没有手动配置了）
+
+## 4.配置
+
+- *因为手上只有灵动mm32的芯片，下载器用的是逐飞`Dap Link`，所以本文基于这两者配置，其他芯片和下载器请移步至EIDE手册（上面的网址）*
+- *另外提一嘴，因为比较菜，我用的是逐飞MM32开源库，大佬别骂*
+
+导入完成后界面如下
+
+<img src="/Users/baohan/Library/CloudStorage/OneDrive-个人/Markdown/20220405 M1 Mac使用pd虚拟机配合VSC烧录mm32单片机/配置1.jpg" alt="配置1" style="zoom:50%;" />
+
+配置主要用到 **芯片支持包**、**构建配置**、**烧录配置**
+
+### 4.1.芯片支持包
+
+<img src="/Users/baohan/Library/CloudStorage/OneDrive-个人/Markdown/20220405 M1 Mac使用pd虚拟机配合VSC烧录mm32单片机/配置2.jpg" alt="配置2" style="zoom:50%;" />
+
+1. 点击加号添加芯片支持包，也就是Keil的`*.pack`文件，如果不需要添加包忽略即可
+
+<img src="/Users/baohan/Library/CloudStorage/OneDrive-个人/Markdown/20220405 M1 Mac使用pd虚拟机配合VSC烧录mm32单片机/配置3.jpg" alt="配置3" style="zoom:50%;" />
+
+2. 选择芯片
+
+### 4.2.构建配置
+
+<img src="/Users/baohan/Library/CloudStorage/OneDrive-个人/Markdown/20220405 M1 Mac使用pd虚拟机配合VSC烧录mm32单片机/配置4.jpg" alt="配置4" style="zoom:50%;" />
+
+1. **构建配置**选择AC6
+2. **CPU类型**按照芯片选择即可，这里是Cortex-M3
+3. **自定义链接脚本**如果导入的时候就是`true`而且脚本路径存在的话就不要管他，不然就选择`false`（结尾有更详细的说明）
+4. **构建器选项**主要用到了两个，这个后面再说
+
+### 4.3.烧录配置
+
+最麻烦的来了
+
+<img src="/Users/baohan/Library/CloudStorage/OneDrive-个人/Markdown/20220405 M1 Mac使用pd虚拟机配合VSC烧录mm32单片机/烧录.jpg" alt="烧录" style="zoom:50%;" />
+
+<img src="/Users/baohan/Library/CloudStorage/OneDrive-个人/Markdown/20220405 M1 Mac使用pd虚拟机配合VSC烧录mm32单片机/烧录2.png" alt="烧录2" style="zoom:50%;" />
+
+- 在`vs code`需要做的只有四件事：
+
+1. 按照下载器选择烧录工具，我这里用的逐飞`Dap Link`，因此选择`pyocd`。
+2. **程序文件 **建议点开重新输入，理论上不输入也可以，但我会报错，很奇怪，输入`${ExecutableName}.hex`
+3. **目标芯片名称** 根据选择的芯片填写
+4. **其他选项** 如果你使用了芯片包，请点开输入以下代码，保存并关闭：
+
+​		`pack:`
+
+​			`- X:\XX\XXX\XXXXXXXXXX.pack`
+
+将第二行替换为芯片包的地址，地址中间的斜杠只需要写一个！
+
+- 麻烦在于`pyocd`的配置，我这里出了很多问题
+
+1. 以管理员模式打开`CMD`。不要直接`Win/Command+R`快捷键打开，开始菜单搜索然后右键以管理员模式运行
+2. 输入以下代码安装pyocd（这里当时忘记截图了）：
+
+​	`pip3 install pyocd`
+
+​	或者
+
+​	`pip install -U pyocd`
+
+我自己是第二种成功的，当时安装pyocd各种报错，有/无科学上网，不同的安装语句都试过，各位可以多试试，千万不要在安装途中关闭CMD！
+
+3. 从 github 下载 [usblib](https://github.com/libusb/libusb/releases/tag/v1.0.21)，下载`*.7z`文件
+
+4. 解压 usblib 后，将 `MS32`目录下的`libusb.dll` 复制到 python.exe 所在的目录和` C:\Windows\System32`目录下（所选择的 `libusb.dll` 必须要和电脑上安装的 python 是同一体系结构，例如：x86 版本python对应 `MS32`目录下的`libusb.dll` ）
+
+<img src="/Users/baohan/Library/CloudStorage/OneDrive-个人/Markdown/20220405 M1 Mac使用pd虚拟机配合VSC烧录mm32单片机/usblib.png" alt="usblib" style="zoom:50%;" />
+
+5. 还是管理员运行的`CMD`，输入`pyocd list`，使用虚拟机的朋友大概率会获得这样的结果
+
+<img src="/Users/baohan/Library/CloudStorage/OneDrive-个人/Markdown/20220405 M1 Mac使用pd虚拟机配合VSC烧录mm32单片机/cmd permission error.jpg" alt="cmd permission error"  />
+
+而正常的是这样的
+
+![pyocd list](/Users/baohan/Library/CloudStorage/OneDrive-个人/Markdown/20220405 M1 Mac使用pd虚拟机配合VSC烧录mm32单片机/pyocd list.jpg)
+
+**解决办法：**找到你的`python.exe`，如图设置：右键点开 **属性 **- **更改仿真设置** - 选择**安全仿真**
+
+![python.exe](/Users/baohan/Library/CloudStorage/OneDrive-个人/Markdown/20220405 M1 Mac使用pd虚拟机配合VSC烧录mm32单片机/python.exe.jpeg)
+
+这时理论上来说再使用`pyocd list`就不会报错了。如果依然报错请百度
+
+## 5.编译烧录
+
+![build](/Users/baohan/Library/CloudStorage/OneDrive-个人/Markdown/20220405 M1 Mac使用pd虚拟机配合VSC烧录mm32单片机/build.jpeg)
+
+1. 可以在左边项目处点击编译烧录，也可以在右上角点击，图片上分别是 **构建、清理、下载**，左边项目处会多一个 **重新构建** 的按钮
+
+2. 这时已经全部配置好了，但有可能还是不能烧录
+
+- **问题1**
+
+  <img src="/Users/baohan/Library/CloudStorage/OneDrive-个人/Markdown/20220405 M1 Mac使用pd虚拟机配合VSC烧录mm32单片机/LTO.jpg" alt="LTO" style="zoom: 50%;" />
+
+这时候就要用到上文 **4.2 **中提到的**构建器选项**
+
+![LTO Solution](/Users/baohan/Library/CloudStorage/OneDrive-个人/Markdown/20220405 M1 Mac使用pd虚拟机配合VSC烧录mm32单片机/LTO Solution.jpg)
+
+将图片中这项取消勾选即可（别忘记保存！！！）
+
+- **问题2**
+
+![codesize](/Users/baohan/Library/CloudStorage/OneDrive-个人/Markdown/20220405 M1 Mac使用pd虚拟机配合VSC烧录mm32单片机/codesize.jpg)
+
+依然是**构建器选项**
+
+![codesize Solution](/Users/baohan/Library/CloudStorage/OneDrive-个人/Markdown/20220405 M1 Mac使用pd虚拟机配合VSC烧录mm32单片机/codesize Solution.jpg)
+
+选择`level-image-size`即可
+
+- **问题3**
+
+![RAM](/Users/baohan/Library/CloudStorage/OneDrive-个人/Markdown/20220405 M1 Mac使用pd虚拟机配合VSC烧录mm32单片机/RAM.jpg)
+
+这个问题我有一点遗忘了，有两种原因好像
+
+1. **4.2** 中 **自定义链接脚本** 应该选`true`但是选成了`false`
+
+2. 选择`false`的界面中有 **RAM/FLASH布局** ，这个选项内的设置不正确
+
+   ![RAM1](/Users/baohan/Library/CloudStorage/OneDrive-个人/Markdown/20220405 M1 Mac使用pd虚拟机配合VSC烧录mm32单片机/RAM1.jpg)
+
+   <img src="/Users/baohan/Library/CloudStorage/OneDrive-个人/Markdown/20220405 M1 Mac使用pd虚拟机配合VSC烧录mm32单片机/RAM2.jpg" alt="RAM2" style="zoom:50%;" />
+
+   这里可以打开keil的项目设置，参照keil中的数据进行填写
+
+   <img src="/Users/baohan/Library/CloudStorage/OneDrive-个人/Markdown/20220405 M1 Mac使用pd虚拟机配合VSC烧录mm32单片机/RAM3.jpeg" alt="RAM3" style="zoom:80%;" />
+
+- **问题4** 有的时候下载会失败（终端里面啥都没有，过了很久出现很多灰色文字），多下载几次就好了
+
+  （不知道是不是作者更新过修复了，我写这篇文章的时候想去截图结果发现每次都一次就下载成功了，而且下载变快了  ~~说到下载变快了我想提一下，英飞凌的tc264性能是好，但是Aurix Development Studio编译和下载那叫一个慢，太差劲了，不知道是不是eclipse的通病~~）
+
+- 还可能有其他问题我没碰到，有的问题可能是keil文件的设置没设置好，可以去keil里面设置好，比如上面那张图片的`Debug`选项中有些设置是错误的之类的都有可能，其他的就只能百度了。
+- 错误都解决就可以愉快的烧录啦，vsc写代码体验比keil舒服了很多。烧录成功界面：
+
+![success](/Users/baohan/Library/CloudStorage/OneDrive-个人/Markdown/20220405 M1 Mac使用pd虚拟机配合VSC烧录mm32单片机/success.jpg)
+
+## 6.Debug
+
+这东西我一直没整好，我需要Debug都是去Keil 里面干的，如果之后成功了再过来更新吧
+
+![debug](/Users/baohan/Library/CloudStorage/OneDrive-个人/Markdown/20220405 M1 Mac使用pd虚拟机配合VSC烧录mm32单片机/debug.jpeg)
+
+（~~xswl逐飞的精准预判~~）
+
+## 7.结尾
+
+应该都写完啦，如果有漏的之后再补充吧，第一次写这种文章，写的不好请见谅！
+
+
+
+
+
+------
+
+## 20220411更新
+
+用一种奇怪的办法解决了debug问题
+
+1. 依然是 [EIDE Manual 网址](https://docs.em-ide.com/#/zh-cn/create_project?id=%e4%bb%8e%e7%a9%ba%e9%a1%b9%e7%9b%ae%e5%bc%80%e5%a7%8b%ef%bc%88%e4%bb%a5-stm32f1-%e4%b8%ba%e4%be%8b%ef%bc%89)，找到 **入门**-**新建项目**-**从空项目开始（以stm32f1为例）**
+2. 按照手册操作新建一个工程就可以debug啦
+
+放张我自己的文件目录在这里，可以参考一下(`mycode`是我用来放自己写的文件的地方)
+
+![file](https://s2.loli.net/2022/04/11/bR4Gu9vfHkpnO8d.png)
+
+**注意事项**
+
+- 4.2中 **自定义连接脚本** 中，文件可以选择`*.scf`文件，如果用的是逐飞工程文件，可以找一下是否有
+
+**libraries**/**sdk**/**mdk**/**linker**/**mm32f3277g_flash**(注意这个文件可能是没有后缀的，也有可能有`*.scf`后缀)
+
+- 除了Manual中提到的`install cmsis header files`别忘了pack包还是要添加的，其他工程配置参考上文
+
