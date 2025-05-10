@@ -39,6 +39,18 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 export PATH=/opt/homebrew/bin:$PATH
 ```
 
+## Git
+
+macOS 自带 git，但需要 PAT (Personal Access Token) 才能克隆私有仓库或推送
+
+标准做法：使用 GCM (Git Credential Manager)
+
+```shell
+brew install --cask git-credential-manager
+```
+
+懒人做法：从[官网](https://github.com/apps/desktop)下载 Github Desktop 并用网页登录，会自动 git config
+
 ## Flutter
 
 Flutter 分为原始仓库 [flutter / flutter](https://github.com/flutter/flutter) 和 [OpenHarmony-SIG / flutter_flutter](https://gitcode.com/openharmony-sig/flutter_flutter)，其中后者提供了 ohos 支持
