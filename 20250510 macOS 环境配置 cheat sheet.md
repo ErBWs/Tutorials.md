@@ -122,4 +122,5 @@ export DEVECO_SDK_HOME=$TOOL_HOME/sdk
 export PATH=$TOOL_HOME/tools/ohpm/bin:$PATH
 export PATH=$TOOL_HOME/tools/hvigor/bin:$PATH
 export PATH=$TOOL_HOME/tools/node/bin:$PATH
+export PATH=$TOOL_HOME/sdk/default/openharmony/toolchains:$PATH
 ```
