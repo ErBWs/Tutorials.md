@@ -91,6 +91,17 @@ git pull origin
 >
 > A: 我找不到用 fvm 的理由，IDEA 可以自己管理 flutter 依赖
 
+## JDK
+
+从 [Eclipse Temurin](https://adoptium.net/zh-CN/temurin/releases/) 网站下载对应版本和架构的 `.pkg` 文件进行安装
+
+```shell
+# 以 JDK17 为例
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home
+```
+
+- flutter - JDK17
+
 ## macOS/iOS
 
 ### Xcode
