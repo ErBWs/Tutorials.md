@@ -3,8 +3,8 @@
 这是一个单纯的记录性文档，用来记录我如何从头开始配置 macOS 上我需要的开发环境
 
 > **Q: 为什么不用 nix-darwin?**
-
-A: 这东西太复杂了，为了安装某个工具链还需要搜索配置一大堆内容，make life simple
+>
+> A: 这东西太复杂了，为了安装某个工具链还需要搜索配置一大堆内容，make life simple
 
 下面正式开始
 
@@ -19,9 +19,10 @@ cd ~/dev/toolchains
 
 ## oh-my-zsh
 
-> 这里需要配置一个临时 proxy 用来访问 raw.githubusercontent.com
-
 ```shell
+#添加一个临时 proxy 用来访问 raw.githubusercontent.com
+export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7890
+
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
 
@@ -55,7 +56,7 @@ brew install --cask git-credential-manager
 
 Flutter 分为原始仓库 [flutter / flutter](https://github.com/flutter/flutter) 和 [OpenHarmony-SIG / flutter_flutter](https://gitcode.com/openharmony-sig/flutter_flutter)，其中后者提供了 ohos 支持
 
-1. flutter 安装
+### flutter 安装
 
 可以考虑直接从 [Archive](https://docs.flutter.dev/release/archive) 下载 zip 或者 git clone。我的本地环境从 GitHub clone 下载速度更快
 
@@ -66,7 +67,7 @@ git clone -b stable https://github.com/flutter/flutter.git
 export PATH=~/dev/toolchains/flutter/bin:$PATH
 ```
 
-2. flutter_ohos 安装
+### flutter_ohos 安装
 
 ```shell
 git clone -b 3.22.0-ohos https://gitcode.com/openharmony-sig/flutter_flutter.git flutter_ohos
@@ -75,11 +76,24 @@ git clone -b 3.22.0-ohos https://gitcode.com/openharmony-sig/flutter_flutter.git
 alias flutter_ohos="~/dev/toolchains/flutter_ohos/bin/flutter"
 ```
 
-> **Q: 为什么不用 fvm?**
+### 更新
 
-A: 我找不到用 fvm 的理由，IDEA 可以自己管理 flutter 依赖
+```shell
+# flutter
+flutter upgrade
+
+# flutter_ohos
+cd ~/dev/toolchains/flutter_ohos
+git pull origin
+```
+
+> **Q: 为什么不用 fvm?**
+>
+> A: 我找不到用 fvm 的理由，IDEA 可以自己管理 flutter 依赖
 
 ## macOS/iOS
+
+### Xcode
 
 从 App Store 下载 Xcode
 
@@ -89,7 +103,7 @@ sudo xcodebuild -runFirstLaunch
 sudo xcodebuild -license
 ```
 
-## CocoaPods
+### CocoaPods
 
 ```shell
 brew install cocoapods
