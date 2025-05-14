@@ -93,14 +93,14 @@ git pull origin
 
 ## JDK
 
-从 [Eclipse Temurin](https://adoptium.net/zh-CN/temurin/releases/) 网站下载对应版本和架构的 `.pkg` 文件进行安装
+从 [Eclipse Temurin](https://adoptium.net/zh-CN/temurin/releases/) 官网下载对应版本和架构的 `.pkg` 文件进行安装
 
 ```shell
 # 以 JDK17 为例
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home
 ```
 
-- flutter - JDK17
+- Flutter - JDK17
 
 ## macOS/iOS
 
@@ -116,11 +116,11 @@ sudo xcodebuild -license
 
 ### CocoaPods
 
+一定不要用[官网](https://cocoapods.org/)提供的 sudo gem install cocoapods
+
 ```shell
 brew install cocoapods
 ```
-
-一定不要用[官网](https://cocoapods.org/)提供的 sudo gem install cocoapods
 
 ## HarmonyOS SDK
 
