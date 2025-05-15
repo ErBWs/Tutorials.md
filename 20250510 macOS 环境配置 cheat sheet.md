@@ -93,14 +93,18 @@ git pull origin
 
 ## JDK
 
-从 [Eclipse Temurin](https://adoptium.net/zh-CN/temurin/releases/) 官网下载对应版本和架构的 `.pkg` 文件进行安装
+从 [Eclipse Temurin](https://adoptium.net/zh-CN/temurin/releases/) 官网下载对应版本和架构的 `.pkg` 文件进行安装。
+通过修改 `JAVA_HOME` 路径来切换 java 版本
 
 ```shell
-# 以 JDK17 为例
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home
+# ~/.zshrc
+export TEMURIN_17=/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home
+export TEMURIN_21=/Library/Java/JavaVirtualMachines/temurin-21.jdk/Contents/Home
+export JAVA_HOME=$TEMURIN_17
 ```
 
-- Flutter - JDK17
+- HarmonyOS SDK - JDK17
+- Android - JDK17
 
 ## macOS/iOS
 
