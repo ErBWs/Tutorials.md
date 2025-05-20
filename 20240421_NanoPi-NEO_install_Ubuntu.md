@@ -1,4 +1,6 @@
-# 前言
+# NanoPi-NEO 全志H3移植Ubuntu 22.04 LTS、u-boot、Linux内核/内核树、mt7601u USB-Wi-Fi支持、配置CLion用于Linux驱动开发
+
+## 0. 前言
 
 想在`NanoPi-NEO`上开发屏幕驱动，但是看了下文件目录发现没有内核树，导致最基础的`file_operations`结构体都无法使用，于是寻找内核树安装方法。但官方提供的内核为4.14太旧了`apt`找不到对应的`linux-source`版本(其实后面发现不需要用`apt`，可以在[kernel.org](https://www.kernel.org/)上下载，但反正都装了那就当学习一下怎么移植了)，于是选择自己重新构建了整个系统。
 

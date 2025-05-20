@@ -1,3 +1,5 @@
+# Windows在Clion中配置CH32 RISC-V工具链
+
 ## 1.准备工作
 
 - 准备好CLion

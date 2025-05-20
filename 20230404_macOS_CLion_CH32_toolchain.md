@@ -1,3 +1,5 @@
+# M1 Mac在Clion中配置CH32 RISC-V工具链
+
 ## 1.前言
 
 - 感谢该[文章](https://blog.csdn.net/wu58430/article/details/126548417?spm=1001.2014.3001.5506)给我的启发！
