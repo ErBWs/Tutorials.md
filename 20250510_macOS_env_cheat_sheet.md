@@ -95,8 +95,7 @@ git pull origin
 
 ## JDK
 
-从 [Eclipse Temurin](https://adoptium.net/zh-CN/temurin/releases/) 官网下载对应版本和架构的 `.pkg` 文件进行安装。
-通过修改 `JAVA_HOME` 路径来切换 java 版本
+从 [Eclipse Temurin](https://adoptium.net/zh-CN/temurin/releases/) 官网下载对应版本和架构的 `.pkg` 文件进行安装。通过修改 `JAVA_HOME` 路径来切换 java 版本
 
 ```shell
 # ~/.zshrc

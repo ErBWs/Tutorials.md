@@ -2,9 +2,7 @@
 
 ## 前言
 
-微软开发并开源了 WSL (Windows Subsystem for Linux)，相比安装双系统，WSL2 的使用更加灵活。
-因此在需要配置 Isaac Gym 环境时我优先考虑了是否可以使用 WSL 进行仿真运行。
-幸运的是在谷歌了一番后成功找到这样一篇[成功案例](https://ljoson.github.io/views/AI/RL/env.html)，于是便开始了我的折腾之路
+微软开发并开源了 WSL (Windows Subsystem for Linux)，相比安装双系统，WSL2 的使用更加灵活。因此在需要配置 Isaac Gym 环境时我优先考虑了是否可以使用 WSL 进行仿真运行。幸运的是在谷歌了一番后成功找到这样一篇[成功案例](https://ljoson.github.io/views/AI/RL/env.html)，于是便开始了我的折腾之路
 
 ## 准备工作
 
@@ -97,8 +95,7 @@ E: Sub-process /usr/bin/dpkg returned an error code (1)
 
 解决方案[^2]：
 
-这里的问题是安装时候会尝试启动 ssh 服务并监听 22 端口。但是这里可能会与 Windows 自身的 ssh 监听冲突。
-因此需要修改 `/etc/ssh/sshd_config` 来配置端口，如修改为 `222`。
+这里的问题是安装时候会尝试启动 ssh 服务并监听 22 端口。但是这里可能会与 Windows 自身的 ssh 监听冲突。因此需要修改 `/etc/ssh/sshd_config` 来配置端口，如修改为 `222`。
 
 ```shell
 sudo vim /etc/ssh/sshd_config
@@ -151,8 +148,7 @@ X11UseLocalhost no
 
 ## CUDA
 
-Windows NVIDIA 驱动现在内置 WSL2 支持，只需要下载 CUDA Toolkit 即可。
-在[官网](https://developer.nvidia.com/cuda-downloads)一步步选择正确的架构和平台，通过给出的命令行命令进行下载
+Windows NVIDIA 驱动现在内置 WSL2 支持，只需要下载 CUDA Toolkit 即可。在[官网](https://developer.nvidia.com/cuda-downloads)一步步选择正确的架构和平台，通过给出的命令行命令进行下载
 
 注意事项：
 
