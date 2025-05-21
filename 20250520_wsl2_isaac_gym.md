@@ -305,7 +305,9 @@ sudo apt upgrade
 export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/dzn_icd.x86_64.json
 ```
 
-这时再运行 `vulkaninfo --summary` 可以看到 GPU 被成功识别
+这时再运行 `vulkaninfo --summary` 不出意外可以看到 GPU 被成功识别
+
+> 出意外也没关系，继续往下看
 
 ![](https://img2024.cnblogs.com/blog/3281656/202505/3281656-20250520233000686-377228661.png)
 
@@ -313,17 +315,19 @@ export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/dzn_icd.x86_64.json
 
 不出意外已经可以成功运行
 
+> 出意外也没关系，继续往下看
+
 ![](https://img2024.cnblogs.com/blog/3281656/202505/3281656-20250520234037671-1172254960.png)
 
 ## Unitree RL GYM
 
-1. 后续步骤
-
 最终目的是运行宇树机器人的强化学习环境，因此还需要一些[后续步骤](https://github.com/unitreerobotics/unitree_rl_gym/blob/main/doc/setup_zh.md#23-%E5%AE%89%E8%A3%85-rsl_rl)
 
+1. 拉取工程
+
 ```shell
-mkdir -p ~/dev/toolchains/opensource
-cd ~/dev/toolchains/opensource
+mkdir -p ~/dev/opensource
+cd ~/dev/opensource
 
 # rsl_rl
 git clone https://github.com/leggedrobotics/rsl_rl.git
@@ -347,11 +351,39 @@ cd ~/dev/opensource/unitree_rl_gym/legged_gym/scripts
 python train.py --task=go2 --num_envs=1
 ```
 
-可以看到成功运行
+3. Troubleshooting
+
+大概率这时候会报这样的错误：
+
+![](https://img2024.cnblogs.com/blog/3281656/202505/3281656-20250522013836690-319728203.png)
+
+解决方案[^5]：
+
+将 `/usr/lib/x86_64-linux-gnu/` 内的 `libstdc++.so.6` 软链接到 `unitree-rl` 中
+
+```shell
+cd ~/dev/toolchains/miniconda3/envs/unitree-rl/lib
+mv libstdc++.so.6 libstdc++.so.6.old
+ln -s /usr/lib/x86_64-linux-gnu/libstdc++.so.6 libstdc++.so.6
+```
+
+再次运行可以看到成功运行，这时候再去运行 demo 大概率也正常了
+
+> 如果还是运行不了就只有自己谷歌找找有没有解决办法了
 
 ![](https://img2024.cnblogs.com/blog/3281656/202505/3281656-20250520235424281-1515234301.png)
 
-到此环境就配置完成了。训练时还有其他参数可选，比如 `--headless` 来关闭图形界面，4070s 开启图形界面经常容易训练到一半完全卡死
+## 后记
+
+到此环境就配置完成了。训练时还有其他参数可选，比如 `--headless` 来关闭图形界面
+
+Isaac Gym 毕竟已经 deprecate 了，配置起来总是有各种问题
+
+我配置的时候一路通，直接就配置完成了，结果我朋友跟着我这文档一通操作还是跑不了 demo，一会能跑一会不能跑的，也不知道哪里的问题
+
+实在受不了了去把宇树的工程拉下来跑发现报错，缺少 `GLIBCXX_3.4.32`，我才想起来我没把这个问题写在文档里。结果宇树的工程成功跑起来了，再回去跑 demo 也能跑了，搞不懂
+
+所以上面才会说跑不起来也没事，继续往下看
 
 ---
 
@@ -362,3 +394,5 @@ python train.py --task=go2 --num_envs=1
 [^3]: [【linux】ImportError: libpython3.7m.so.1.0: cannot open shared object file: No such file or directory](https://blog.csdn.net/w5688414/article/details/128070172)
 
 [^4]: [【记录】在WSL2中部署Vulkan开发环境（2022年版）](https://zhuanlan.zhihu.com/p/576320322)
+
+[^5]: [「已解决」anaconda环境version `GLIBCXX_3.4.30‘ not found](https://blog.csdn.net/CCCDeric/article/details/129292944)
