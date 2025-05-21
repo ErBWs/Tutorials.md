@@ -208,7 +208,7 @@ rm miniconda.sh
 `conda init` 会自动添加环境到环境变量文件。如果是 zsh 则运行 `conda init zsh`
 
 ```shell
-~dev/toolchains/miniconda3/bin/conda init
+~/dev/toolchains/miniconda3/bin/conda init
 ```
 
 3. 创建虚拟环境
