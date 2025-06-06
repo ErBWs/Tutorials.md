@@ -56,7 +56,7 @@ brew install --cask git-credential-manager
 
 ## Flutter
 
-Flutter 分为原始仓库 [flutter / flutter](https://github.com/flutter/flutter) 和 [OpenHarmony-SIG / flutter_flutter](https://gitcode.com/openharmony-sig/flutter_flutter)，其中后者提供了 ohos 支持
+Flutter 分为原始仓库 [flutter / flutter](https://github.com/flutter/flutter) 和 [OpenHarmony-TPC / flutter_flutter](https://gitcode.com/openharmony-tpc/flutter_flutter)，其中后者提供了 ohos 支持
 
 ### flutter 安装
 
@@ -72,7 +72,7 @@ export PATH=~/dev/toolchains/flutter/bin:$PATH
 ### flutter_ohos 安装
 
 ```shell
-git clone -b 3.22.0-ohos https://gitcode.com/openharmony-sig/flutter_flutter.git flutter_ohos
+git clone -b 3.22.0-ohos https://gitcode.com/openharmony-tpc/flutter_flutter.git flutter_ohos
 
 # ~/.zshrc
 alias flutter_ohos="~/dev/toolchains/flutter_ohos/bin/flutter"
