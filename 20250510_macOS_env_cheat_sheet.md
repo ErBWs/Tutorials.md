@@ -33,6 +33,25 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 1. 终端主题 `ZSH_THEME="af-magic"`
 2. 添加 proxy
 
+## Ghostty
+
+从[官网](https://ghostty.org/download)下载 .dmg 文件并安装，添加自定义配置
+
+```ini
+# window
+window-width = 80
+window-height = 24
+
+# cursor
+shell-integration-features = no-cursor
+cursor-style = block
+cursor-style-blink = false
+
+# font
+font-size = 18
+font-thicken = true
+```
+
 ## Homebrew
 
 ```shell
