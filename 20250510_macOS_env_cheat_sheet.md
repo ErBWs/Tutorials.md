@@ -35,6 +35,8 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 
 ## Ghostty
 
+### 安装
+
 从[官网](https://ghostty.org/download)下载 .dmg 文件并安装，添加自定义配置
 
 ```ini
@@ -51,6 +53,11 @@ cursor-style-blink = false
 font-size = 18
 font-thicken = true
 ```
+
+### 配置右键菜单 `在终端中打开` 使用 Ghostty
+
+1. 找到一个默认打开方式为 `终端` 的文件
+2. 右键显示简介，将打开方式修改为 Ghostty，并全局应用
 
 ## Homebrew
 
