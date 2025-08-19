@@ -166,3 +166,13 @@ export PATH=$TOOL_HOME/tools/hvigor/bin:$PATH
 export PATH=$TOOL_HOME/tools/node/bin:$PATH
 export PATH=$TOOL_HOME/sdk/default/openharmony/toolchains:$PATH
 ```
+
+## Android SDK
+
+使用 IDEA 或 Android Studio 下载 SDK，并配置环境变量
+
+```shell
+# ~/.zshrc
+export ANDROID_HOME=~/dev/toolchains/android/sdk
+export PATH=~/dev/toolchains/android/sdk/platform-tools:$PATH
+```
