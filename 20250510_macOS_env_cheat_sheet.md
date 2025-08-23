@@ -102,6 +102,7 @@ git clone -b 3.22.0-ohos https://gitcode.com/openharmony-tpc/flutter_flutter.git
 
 # ~/.zshrc
 alias flutter_ohos="~/dev/toolchains/flutter_ohos/bin/flutter"
+alias dart_ohos="~/dev/toolchains/flutter_ohos/bin/dart"
 ```
 
 ### 更新
