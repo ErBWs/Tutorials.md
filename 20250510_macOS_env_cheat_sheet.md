@@ -154,6 +154,28 @@ sudo xcodebuild -license
 brew install cocoapods
 ```
 
+## Node.js
+
+通过[官方网站](https://nodejs.org/en/download/)的命令进行安装，以 Node.js v22.19.0 (LTS) 和 nvm v0.40.3 为例
+
+```shell
+# Download and install nvm:
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+
+# Download and install Node.js:
+nvm install 22
+
+# Verify the Node.js version:
+node -v # Should print "v22.19.0".
+nvm current # Should print "v22.19.0".
+
+# Download and install pnpm:
+corepack enable pnpm
+
+# Verify pnpm version:
+pnpm -v
+```
+
 ## HarmonyOS SDK
 
 从[官网](https://developer.huawei.com/consumer/cn/deveco-studio/)下载 DecEco Studio
@@ -164,7 +186,6 @@ export TOOL_HOME=/Applications/DevEco-Studio.app/Contents
 export DEVECO_SDK_HOME=$TOOL_HOME/sdk
 export PATH=$TOOL_HOME/tools/ohpm/bin:$PATH
 export PATH=$TOOL_HOME/tools/hvigor/bin:$PATH
-export PATH=$TOOL_HOME/tools/node/bin:$PATH
 export PATH=$TOOL_HOME/sdk/default/openharmony/toolchains:$PATH
 ```
 
